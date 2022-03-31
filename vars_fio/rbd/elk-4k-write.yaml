@@ -1,0 +1,7 @@
+benchmark : "1"
+fio_pods : "3"
+io_type : "write"
+io_size : "4"
+io_threads : "32"
+io_total : "20"
+storage_class : "ocs-storagecluster-ceph-rbd"

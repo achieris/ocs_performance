@@ -1,0 +1,7 @@
+---
+- name: Using ansible rbd_ceph_performance role
+  hosts: localhost
+  connection: local
+  become: false
+  roles:
+    - rbd_ceph_performance_no_interactive

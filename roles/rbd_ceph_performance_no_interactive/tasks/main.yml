@@ -1,0 +1,32 @@
+---
+- name: Fio testing
+  include_tasks: deploy_test_env.yml
+  when: benchmark == "1"
+
+- name: Postgres pgbench testing
+  include_tasks: pgbench.yml
+  when: benchmark == "2"
+
+- name: s3cmd testing
+  include_tasks: s3cmd.yml
+  when: benchmark == "3"
+
+- name: pvc testing
+  include_tasks: lets_create_pvc.yml
+  when: benchmark == "4"
+
+- name: OSD partitoning
+  include_tasks: partitioning.yml
+  when: benchmark == "5"
+
+- name: Infra stretched cluster deployment
+  include_tasks: prepare-machinesets-stretched.yaml
+  when: benchmark == "6"
+
+- name: HA test stretched cluster
+  include_tasks: ha_test.yml
+  when: benchmark == "7"
+
+- name: Infra stretched cluster deployment with BM instances
+  include_tasks: prepare-machinesets-stretched-bm.yaml
+  when: benchmark == "8"
