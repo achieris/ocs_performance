@@ -3,9 +3,10 @@ fio_pods : "5"
 io_type : "randrw"
 io_size : "4"
 io_threads : "32"
-io_total : "20"
+io_total : "5"
 storage_class : "ocs-storagecluster-ceph-rbd"
 rwmixread: 80
 rwmixwrite: 20
 kubeconfig: ~/kubeauth/kubeconfig
 nrfiles: 100
+runtime: 240

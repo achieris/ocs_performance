@@ -3,6 +3,8 @@ fio_pods : "5"
 io_type : "read"
 io_size : "4096"
 io_threads : "32"
-io_total : "20"
+io_total : "5"
 storage_class : "ocs-storagecluster-cephfs"
 kubeconfig: ~/kubeauth/kubeconfig
+runtime: 240
+nrfiles: 100

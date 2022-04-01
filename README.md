@@ -31,8 +31,18 @@ kubeconfig: '$HOME/.kube/config'
 ## Performance testing
 ### Just click on the image below ;)
 [![Watch the video](https://github.com/ctorres80/ocs_performance/blob/master/roles/rbd_ceph_performance/files/video_picture.png)](https://youtu.be/KssJ35seKWU)
+### FIO test non interactive 
+It is possible to use the role rbd_ceph_performance_no_interactive to execute fio using a variable file. 
+Into the vars_fio folder there are some example variable files, you can launch the playbook using the following syntax. 
+```bash 
+ansible-playbook -e "@vars_fio/cephfs/4m-blocks-seq-reads.yaml" use_playbook_no_interactive.yml
+``` 
 
-
+#### Parse of playbook output
+It is possible to use a simple tool to simplify the analysis of the playbook results stored in ~/.ansible_async/ folder. 
+```bash
+python3 parser.py file1 file2 file3 ... filen
+``` 
 
 ## OpenShift Data Foundation v4.7
 The OpenShift Data Foundation deployment is based on version 4.7 (RC), the ODF operator container image is:  
