@@ -8,3 +8,4 @@ storage_class : "ocs-storagecluster-ceph-rbd"
 rwmixread: 80
 rwmixwrite: 20
 kubeconfig: ~/kubeauth/kubeconfig
+nrfiles: 100

@@ -6,3 +6,4 @@ io_threads : "32"
 io_total : "20"
 storage_class : "ocs-storagecluster-ceph-rbd"
 kubeconfig: ~/kubeauth/kubeconfig
+nrfiles: 100

@@ -12,14 +12,14 @@
 - name: fio benchmarking mixed rbd rw with storage class {{ storage_class }}
   shell: |
     export KUBECONFIG={{ kubeconfig }}
-    oc exec -n {{ name_space }} {{ item }} -it -- bash -c "printf  \"fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --directory=/usr/share/ocs-pvc --bs={{ io_size }}K --iodepth={{ io_threads }} --size={{ io_total }}G --rw={{ io_type }} --rwmixread={{ rwmixread }} --rwmixwrite={{ rwmixwrite }} --nrfiles={{ io_total|int|round(0,'common') * 102400 / io_size|int|round(0,'common') }} --refill_buffers=1 --alloc-size=1048576 & \n pid=\044\041  \n echo SC={{ storage_class }} fio_pods={{ fio_pods }} \n trap kill \044pid  EXIT \n    while kill -0 \044pid ;\n     do  \n      echo fio is running... \n      sleep 120 \n   done \n trap - EXIT\" > /tmp/fio.sh && sh /tmp/fio.sh " 
+    oc exec -n {{ name_space }} {{ item }} -it -- bash -c "printf  \"fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --directory=/usr/share/ocs-pvc --bs={{ io_size }}K --iodepth={{ io_threads }} --size={{ io_total }}G --rw={{ io_type }} --rwmixread={{ rwmixread }} --rwmixwrite={{ rwmixwrite }} --nrfiles={{ nrfiles }} --refill_buffers=1 --alloc-size=1048576 & \n pid=\044\041  \n echo SC={{ storage_class }} fio_pods={{ fio_pods }} \n trap kill \044pid  EXIT \n    while kill -0 \044pid ;\n     do  \n      echo fio is running... \n      sleep 120 \n   done \n trap - EXIT\" > /tmp/fio.sh && sh /tmp/fio.sh " 
   loop: "{{ fio_ceph_tool_pods.stdout_lines }}"
   register: _create_instances
   async: 18000  # Maximum runtime in seconds. Adjust as needed.
   poll: 0  # Fire and continue (never poll)
   when: io_type == "readwrite" or io_type == "randrw"
 
-- name: fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --directory=/usr/share/ocs-pvc --bs={{ io_size }}K --iodepth={{ io_threads }} --size={{ io_total }}G --rw={{ io_type }} --nrfiles={{ io_total|int|round(0,'common') * 102400 / io_size|int|round(0,'common') }} --refill_buffers=1 --alloc-size=1048576
+- name: fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --directory=/usr/share/ocs-pvc --bs={{ io_size }}K --iodepth={{ io_threads }} --size={{ io_total }}G --rw={{ io_type }} --nrfiles={{nrfiles  }} --refill_buffers=1 --alloc-size=1048576
   async_status:
     jid: "{{ item.ansible_job_id }}"
   register: _jobs
@@ -38,14 +38,14 @@
 - name: fio benchmarking read, write, randwrite with storage class {{ storage_class }}
   shell: |
     export KUBECONFIG={{ kubeconfig }}
-    oc exec -n {{ name_space }} {{ item }} -it -- bash -c "echo -e \"fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --directory=/usr/share/ocs-pvc --bs={{ io_size }}K --iodepth={{ io_threads }} --size={{ io_total }}G --rw={{ io_type }} --nrfiles={{ io_total|int|round(0,'common') * 102400 / io_size|int|round(0,'common') }} --refill_buffers=1 --alloc-size=1048576 & \n pid=\044\041 \n echo SC={{ storage_class }} fio_pods={{ fio_pods }} \n trap kill \044pid  EXIT \n    while kill -0 \044pid ;\n     do  \n      echo fio is running... \n      sleep 120 \n   done \n trap - EXIT\" > /tmp/fio.sh && sh /tmp/fio.sh "
+    oc exec -n {{ name_space }} {{ item }} -it -- bash -c "echo -e \"fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --directory=/usr/share/ocs-pvc --bs={{ io_size }}K --iodepth={{ io_threads }} --size={{ io_total }}G --rw={{ io_type }} --nrfiles={{ nrfiles }} --refill_buffers=1 --alloc-size=1048576 & \n pid=\044\041 \n echo SC={{ storage_class }} fio_pods={{ fio_pods }} \n trap kill \044pid  EXIT \n    while kill -0 \044pid ;\n     do  \n      echo fio is running... \n      sleep 120 \n   done \n trap - EXIT\" > /tmp/fio.sh && sh /tmp/fio.sh "
   loop: "{{ fio_ceph_tool_pods.stdout_lines }}"
   register: _create_instances
   async: 18000  # Maximum runtime in seconds. Adjust as needed.
   poll: 0  # Fire and continue (never poll)
   when: io_type == "read" or io_type == "write" or io_type == "randwrite" or io_type == "randread"
 
-- name: fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --directory=/usr/share/ocs-pvc --bs={{ io_size }}K --iodepth={{ io_threads }} --size={{ io_total }}G --rw={{ io_type }} --nrfiles={{ io_total|int|round(0,'common') * 102400 / io_size|int|round(0,'common') }} --refill_buffers=1 --alloc-size=1048576
+- name: fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --directory=/usr/share/ocs-pvc --bs={{ io_size }}K --iodepth={{ io_threads }} --size={{ io_total }}G --rw={{ io_type }} --nrfiles={{ nrfiles }} --refill_buffers=1 --alloc-size=1048576
   async_status:
     jid: "{{ item.ansible_job_id }}"
   register: _jobs
