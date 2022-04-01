@@ -32,6 +32,15 @@ spec:
         app: fio-testing-performance
     spec:
       affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app 
+                operator: In
+                values:
+                - fio-testing-performance
+            topologyKey: topology.kubernetes.io/hostname
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:

@@ -5,4 +5,4 @@ io_size : "64"
 io_threads : "32"
 io_total : "20"
 storage_class : "ocs-storagecluster-ceph-rbd"
-kubeconfig: /home/achieris/kubeauth/kubeconfig
+kubeconfig: ~/kubeauth/kubeconfig

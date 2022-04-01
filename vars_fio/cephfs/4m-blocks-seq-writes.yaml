@@ -1,8 +1,8 @@
 benchmark : "1"
-fio_pods : "6"
+fio_pods : "5"
 io_type : "write"
 io_size : "4096"
 io_threads : "32"
 io_total : "20"
 storage_class : "ocs-storagecluster-cephfs"
-kubeconfig: /home/achieris/kubeauth/kubeconfig
+kubeconfig: ~/kubeauth/kubeconfig
