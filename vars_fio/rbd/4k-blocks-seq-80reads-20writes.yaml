@@ -7,3 +7,4 @@ io_total : "20"
 storage_class : "ocs-storagecluster-ceph-rbd"
 rwmixread: 80
 rwmixwrite: 20
+kubeconfig: /home/achieris/kubeauth/kubeconfig
