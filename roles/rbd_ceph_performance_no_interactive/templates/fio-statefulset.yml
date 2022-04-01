@@ -34,14 +34,12 @@ spec:
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
             - labelSelector:
                 matchExpressions:
-                - key: app 
-                  operator: In
-                  values:
-                  - fio-testing-performance
+                  - key: app
+                    operator: In
+                    values:
+                      - fio-testing-performance
               topologyKey: kubernetes.io/hostname
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
