@@ -1,7 +1,7 @@
 - name: Create the fio statefulset fio-testing-performance accordingly
   shell: |
     export KUBECONFIG={{ kubeconfig }}
-    oc create -f roles/rbd_ceph_performance/templates/fio-statefulset.yml
+    oc create -f roles/rbd_ceph_performance_no_interactive/templates/fio-statefulset.yml
   ignore_errors: yes
 - name: Scale fio for OCS to {{ fio_pods }} pods in namespace {{ name_space }}
   shell: |

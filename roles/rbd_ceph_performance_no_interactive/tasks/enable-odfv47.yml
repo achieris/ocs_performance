@@ -32,4 +32,4 @@
 - name: Deployment of ODFv47 operator
   shell:
             cmd: |
-              oc apply -f roles/rbd_ceph_performance/templates/odfv47.yml
+              oc apply -f roles/rbd_ceph_performance_no_interactive/templates/odfv47.yml

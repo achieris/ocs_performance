@@ -4,28 +4,28 @@
 - name: Create the fio statefulset fio-testing-performance accordingly
   shell: |
     export KUBECONFIG={{ kubeconfig }}
-    oc create -f roles/rbd_ceph_performance/templates/fio-statefulset.yml
+    oc create -f roles/rbd_ceph_performance_no_interactive/templates/fio-statefulset.yml
   ignore_errors: yes
 - name: Let's adapt the pvcs template with storage class {{ storage_class }}
   shell: |
-    sed -i '/  - ReadWrite/d' roles/rbd_ceph_performance/templates/pvc.yml
-    sed -i '$d' roles/rbd_ceph_performance/templates/pvc.yml
-    sed -i -E 's/storage: .+?(Gi).+?/storage: {{ pvcs_size }}Gi/g' roles/rbd_ceph_performance/templates/pvc.yml
+    sed -i '/  - ReadWrite/d' roles/rbd_ceph_performance_no_interactive/templates/pvc.yml
+    sed -i '$d' roles/rbd_ceph_performance_no_interactive/templates/pvc.yml
+    sed -i -E 's/storage: .+?(Gi).+?/storage: {{ pvcs_size }}Gi/g' roles/rbd_ceph_performance_no_interactive/templates/pvc.yml
     provisioner=$(oc get sc {{ storage_class }} -o jsonpath='{range .items[*]}{@.provisioner}')
     if [ $provisioner = "openshift-storage.rbd.csi.ceph.com" ]; then
        accessmode="ReadWriteOnce"
     else
        accessmode="ReadWriteMany"
     fi
-    sed -i "/\ \ accessModes:/a \ \ - $accessmode" roles/rbd_ceph_performance/templates/pvc.yml
-    sed -i '/\ \ \ \ storage:/a \ \ storageClassName: {{ storage_class }}' roles/rbd_ceph_performance/templates/pvc.yml
+    sed -i "/\ \ accessModes:/a \ \ - $accessmode" roles/rbd_ceph_performance_no_interactive/templates/pvc.yml
+    sed -i '/\ \ \ \ storage:/a \ \ storageClassName: {{ storage_class }}' roles/rbd_ceph_performance_no_interactive/templates/pvc.yml
   args:
     warn: false
 - name: Let's create {{ pvcs_number|int }} pvcs with storage class {{ storage_class }}
   shell: |
-    sed -i '5d' roles/rbd_ceph_performance/templates/pvc.yml
-    sed -i '/metadata:/a \ \ name: pvc-{{ item }}' roles/rbd_ceph_performance/templates/pvc.yml
-    oc -n {{ name_space }} create -f roles/rbd_ceph_performance/templates/pvc.yml
+    sed -i '5d' roles/rbd_ceph_performance_no_interactive/templates/pvc.yml
+    sed -i '/metadata:/a \ \ name: pvc-{{ item }}' roles/rbd_ceph_performance_no_interactive/templates/pvc.yml
+    oc -n {{ name_space }} create -f roles/rbd_ceph_performance_no_interactive/templates/pvc.yml
   args:
     warn: false
   with_sequence: start=1 end={{ pvcs_number|int }}
@@ -34,14 +34,14 @@
     seconds: 30
 - name: Let's delete {{ pvcs_number|int }} pvcs with storage class {{ storage_class }}
   shell: |
-    sed -i '5d' roles/rbd_ceph_performance/templates/pvc.yml
-    sed -i '/metadata:/a \ \ name: pvc-{{ item }}' roles/rbd_ceph_performance/templates/pvc.yml
-    oc -n {{ name_space }} delete -f roles/rbd_ceph_performance/templates/pvc.yml
+    sed -i '5d' roles/rbd_ceph_performance_no_interactive/templates/pvc.yml
+    sed -i '/metadata:/a \ \ name: pvc-{{ item }}' roles/rbd_ceph_performance_no_interactive/templates/pvc.yml
+    oc -n {{ name_space }} delete -f roles/rbd_ceph_performance_no_interactive/templates/pvc.yml
   args:
     warn: false
   with_sequence: start=1 end={{ pvcs_number|int }}
 - name: I'm going to clean the testing environment
   shell: |
     export KUBECONFIG={{ kubeconfig }}
-    oc delete -f roles/rbd_ceph_performance/templates/fio-statefulset.yml
+    oc delete -f roles/rbd_ceph_performance_no_interactive/templates/fio-statefulset.yml
   ignore_errors: yes

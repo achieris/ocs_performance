@@ -1,6 +1,6 @@
 - name: 'Modify statefulset with the storageclass accordingly'
   lineinfile:
-    path: roles/rbd_ceph_performance/templates/pgbench-template.yml
+    path: roles/rbd_ceph_performance_no_interactive/templates/pgbench-template.yml
     regexp: '^    storageClassName: '
     line: '    storageClassName: {{ storage_class }}'
 
@@ -8,7 +8,7 @@
 - name: Create the postgres template, namespace and DB instance
   shell: |
     export KUBECONFIG={{ kubeconfig }}
-    oc apply -f roles/rbd_ceph_performance/templates/pgbench-template.yml
+    oc apply -f roles/rbd_ceph_performance_no_interactive/templates/pgbench-template.yml
     for i in {1..{{ db_instances | int }}}
     do
       oc create namespace {{ pgbench_project }}$i
@@ -95,4 +95,4 @@
       oc delete all,pvc --all -n {{ pgbench_project }}$i
       oc delete project {{ pgbench_project }}$i
     done
-    oc delete -f roles/rbd_ceph_performance/templates/pgbench-template.yml
+    oc delete -f roles/rbd_ceph_performance_no_interactive/templates/pgbench-template.yml

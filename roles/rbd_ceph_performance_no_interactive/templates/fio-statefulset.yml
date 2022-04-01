@@ -43,6 +43,14 @@ spec:
                   values:
                   - fio-testing-performance
               topologyKey: topology.kubernetes.io/hostname
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: cluster.ocs.openshift.io/openshift-storage
+                operator: NotIn
+                values:
+                - ""
       containers:
       - name: fio-testing-performance
         image: quay.io/cloud-bulldozer/fio:latest

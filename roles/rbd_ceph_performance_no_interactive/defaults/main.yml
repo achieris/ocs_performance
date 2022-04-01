@@ -1,6 +1,6 @@
 ---
 # pvc.yml path
-pvc_yml: './roles/rbd_ceph_performance/templates/pvc.yml'
+pvc_yml: './roles/rbd_ceph_performance_no_interactive/templates/pvc.yml'
 # kubeconfig path
 # kubeconfig: '$HOME/.kube/config'
 # ocs namespace

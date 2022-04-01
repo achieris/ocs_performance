@@ -64,5 +64,5 @@
 - name: Testing completed!!! I'm going to clean fio environment
   shell: |
     export KUBECONFIG={{ kubeconfig }}
-    oc delete -f roles/rbd_ceph_performance/templates/fio-statefulset.yml
+    oc delete -f roles/rbd_ceph_performance_no_interactive/templates/fio-statefulset.yml
   ignore_errors: yes

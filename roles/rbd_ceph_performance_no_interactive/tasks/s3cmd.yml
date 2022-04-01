@@ -2,7 +2,7 @@
 - name: Create the fio+s3cmd statefulset fio-testing-performance accordingly
   shell: |
     export KUBECONFIG={{ kubeconfig }}
-    oc create -f roles/rbd_ceph_performance/templates/fio-statefulset-s3cmd.yml
+    oc create -f roles/rbd_ceph_performance_no_interactive/templates/fio-statefulset-s3cmd.yml
   ignore_errors: yes
 - name: Scale fio statefulset {{ fio_pods }} pods in namespace {{ name_space }}
   shell: |
@@ -29,13 +29,13 @@
     msg: "{{ fio_pods_print.stdout_lines }}"
 - name: Let's create {{ fio_pods }} obcs with storageclass {{ storage_class }}
   shell: |
-    sed "s/  name: .*/  name: odf-obc-{{ item }}/" roles/rbd_ceph_performance/templates/create_buckets.yml > roles/rbd_ceph_performance/templates/create_buckets_tmp.yml
-    mv roles/rbd_ceph_performance/templates/create_buckets_tmp.yml roles/rbd_ceph_performance/templates/create_buckets.yml
-    sed "s/  storageClassName: .*/  storageClassName: {{ storage_class }}/" roles/rbd_ceph_performance/templates/create_buckets.yml > roles/rbd_ceph_performance/templates/create_buckets_tmp.yml
-    mv roles/rbd_ceph_performance/templates/create_buckets_tmp.yml roles/rbd_ceph_performance/templates/create_buckets.yml
-    sed "s/  generateBucketName: .*/  generateBucketName: odf-obc-{{ item }}/" roles/rbd_ceph_performance/templates/create_buckets.yml > roles/rbd_ceph_performance/templates/create_buckets_tmp.yml
-    mv roles/rbd_ceph_performance/templates/create_buckets_tmp.yml roles/rbd_ceph_performance/templates/create_buckets.yml
-    oc -n {{ name_space }} apply -f roles/rbd_ceph_performance/templates/create_buckets.yml
+    sed "s/  name: .*/  name: odf-obc-{{ item }}/" roles/rbd_ceph_performance_no_interactive/templates/create_buckets.yml > roles/rbd_ceph_performance_no_interactive/templates/create_buckets_tmp.yml
+    mv roles/rbd_ceph_performance_no_interactive/templates/create_buckets_tmp.yml roles/rbd_ceph_performance_no_interactive/templates/create_buckets.yml
+    sed "s/  storageClassName: .*/  storageClassName: {{ storage_class }}/" roles/rbd_ceph_performance_no_interactive/templates/create_buckets.yml > roles/rbd_ceph_performance_no_interactive/templates/create_buckets_tmp.yml
+    mv roles/rbd_ceph_performance_no_interactive/templates/create_buckets_tmp.yml roles/rbd_ceph_performance_no_interactive/templates/create_buckets.yml
+    sed "s/  generateBucketName: .*/  generateBucketName: odf-obc-{{ item }}/" roles/rbd_ceph_performance_no_interactive/templates/create_buckets.yml > roles/rbd_ceph_performance_no_interactive/templates/create_buckets_tmp.yml
+    mv roles/rbd_ceph_performance_no_interactive/templates/create_buckets_tmp.yml roles/rbd_ceph_performance_no_interactive/templates/create_buckets.yml
+    oc -n {{ name_space }} apply -f roles/rbd_ceph_performance_no_interactive/templates/create_buckets.yml
   args:
     warn: false
   with_sequence: start=0 end={{ fio_pods|int - 1 }}
@@ -109,6 +109,6 @@
 - name: I'm going to clean the fio environment ;)
   shell: |
     export KUBECONFIG={{ kubeconfig }}
-    oc delete -f roles/rbd_ceph_performance/templates/fio-statefulset-s3cmd.yml
+    oc delete -f roles/rbd_ceph_performance_no_interactive/templates/fio-statefulset-s3cmd.yml
   ignore_errors: yes
   
