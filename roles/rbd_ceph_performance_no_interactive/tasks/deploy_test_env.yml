@@ -19,7 +19,7 @@
   poll: 0  # Fire and continue (never poll)
   when: io_type == "readwrite" or io_type == "randrw"
 
-- name: fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --directory=/usr/share/ocs-pvc --bs={{ io_size }}K --iodepth={{ io_threads }} --size={{ io_total }}G --rw={{ io_type }} --nrfiles={{nrfiles  }} --refill_buffers=1 --alloc-size=1048576
+- name: fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --directory=/usr/share/ocs-pvc --bs={{ io_size }}K --iodepth={{ io_threads }} --size={{ io_total }}G --rw={{ io_type }} --nrfiles={{nrfiles  }} --refill_buffers=1 --alloc-size=1048576 --runtime={{ runtime }}
   async_status:
     jid: "{{ item.ansible_job_id }}"
   register: _jobs
@@ -46,7 +46,7 @@
   poll: 0  # Fire and continue (never poll)
   when: io_type == "read" or io_type == "write" or io_type == "randwrite" or io_type == "randread"
 
-- name: fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --directory=/usr/share/ocs-pvc --bs={{ io_size }}K --iodepth={{ io_threads }} --size={{ io_total }}G --rw={{ io_type }} --nrfiles={{ nrfiles }} --refill_buffers=1 --alloc-size=1048576
+- name: fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --directory=/usr/share/ocs-pvc --bs={{ io_size }}K --iodepth={{ io_threads }} --size={{ io_total }}G --rw={{ io_type }} --nrfiles={{ nrfiles }} --refill_buffers=1 --alloc-size=1048576 --runtime={{ runtime }}
   async_status:
     jid: "{{ item.ansible_job_id }}"
   register: _jobs
